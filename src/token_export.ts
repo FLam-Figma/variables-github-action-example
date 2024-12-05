@@ -22,14 +22,13 @@ function tokenValueFromVariable(
 ) {
   const value = variable.valuesByMode[modeId]
   if (typeof value === 'object') {
-    if ('type' in value && value.type === 'VARIABLE_ALIAS') {
+    if ('type' in value && value.type === 'VARIABLE_ALIAS' && typeof localVariables[value.id] !== 'undefined') {
       const aliasedVariable = localVariables[value.id]
       return `{${aliasedVariable.name.replace(/\//g, '.')}}`
     } else if ('r' in value) {
       return rgbToHex(value)
     }
-
-    throw new Error(`Format of variable value is invalid: ${value}`)
+    return "noName"
   } else {
     return value
   }
